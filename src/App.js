@@ -16,26 +16,29 @@ class BooksApp extends React.Component {
     });
   }
 
+  // Places new book or moves existing book to another shelf
   updateShelf = (book, destShelf) => {
     const { books } = this.state;
 
-    const bookIndex = books.findIndex((key) => {
+    const bookIdx = books.findIndex((key) => {
       return key.id === book.id;
     });
 
-    let stateBooks = Object.assign([], books);
+    let myBooks = Object.assign([], books);
 
-    if (bookIndex === -1) {
+    if (bookIdx === -1) {
+      // Book not in my books
       const newBook = Object.assign({}, book);
       newBook.shelf = destShelf;
-      stateBooks.push(newBook);
+      myBooks.push(newBook);
     } else {
-      stateBooks[bookIndex] = Object.assign({}, stateBooks[bookIndex]);
-      stateBooks[bookIndex].shelf = destShelf;
+      // move existing book
+      myBooks[bookIdx] = Object.assign({}, myBooks[bookIdx]);
+      myBooks[bookIdx].shelf = destShelf;
     }
 
     BooksAPI.update(book, destShelf).then(
-      this.setState({ books: stateBooks })
+      this.setState({ books: myBooks })
     );
   };
 
