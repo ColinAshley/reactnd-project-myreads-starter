@@ -7,9 +7,10 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App'
 import './index.css'
 
+// Wrap the App component in the React Router
 ReactDOM.render(
   <BrowserRouter>
     <App />
   </BrowserRouter>,
     document.getElementById('root')
-;)
+);
