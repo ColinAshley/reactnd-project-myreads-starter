@@ -17,28 +17,24 @@ class Search extends Component {
   // Send Query via API and set the state of the page
   updateQuery = (query) => {
     const { libraryBooks } = this.props;
-    this.setState({ query: query });
-
-    // perform the search
-    BooksAPI.search(query, 10).then((response) => {
-      if (response && response.length) {
-        const books = response.map((book) => {
-          const libBook = libraryBooks.find((libBook) => libBook.id === book.id);
-          const shelf = libBook ? libBook.shelf : 'none';
-
-          return {
-            id: book.id,
-            shelf: shelf,
-            authors: book.authors,
-            title: book.title,
-            imageLinks: {
-              thumbnail: book.imageLinks.thumbnail
-            }
-          };
-        });
-        this.setState({ books });
-      }
-    });
+    // If query is empty, clear current books.
+    if (query === '') {
+      this.setState({books: [] })
+    }
+    else {
+        this.setState({ query: query });
+        // perform the search
+        BooksAPI.search(query, 20).then((response) => {
+          if (response && response.length) {
+            const books = response.map((book) => {
+            const libBook = libraryBooks.find((libBook) => libBook.id === book.id);
+            book.shelf = libBook ? libBook.shelf : 'none';
+            return book
+          });
+          this.setState({ books });
+        }
+      });
+    };
   };
 
   render () {

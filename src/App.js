@@ -9,9 +9,15 @@ import Search from './components/Search';
 import './App.css';
 
 class BooksApp extends React.Component {
-  constructor () {
-    super();
-    this.state = BooksAPI.getAll().then((books) => {
+
+  // initial state
+  state = {
+    books: []
+  };
+
+  // load books once component mounted
+  componentDidMount () {
+    BooksAPI.getAll().then((books) => {
       this.setState({ books: books });
     });
   }

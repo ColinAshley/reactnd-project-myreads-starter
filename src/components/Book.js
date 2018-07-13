@@ -27,13 +27,14 @@ class Book extends Component {
   // display the book and options list
   render () {
     const { title, authors, imageLinks } = this.props;
-    const { thumbnail } = imageLinks;
+    // Use default image if a thumbnail is not avalable
+    const imageURL = imageLinks && imageLinks.thumbnail ? imageLinks.thumbnail : '../images/no-image.jpg';
     const { shelf } = this.state;
 
     return(
       <div className="book">
         <div className="book-top">
-          <div className="book-cover" style={ { backgroundImage: `url("${ thumbnail }")` } }></div>
+          <div className="book-cover" style={ { backgroundImage: `url("${ imageURL }")` } }></div>
           <div className="book-shelf-changer">
             <select value={ shelf }
                     onChange={ (event) => this.changeShelf(event.target.value) }>
